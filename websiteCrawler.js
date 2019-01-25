@@ -24,7 +24,6 @@ let websiteCrawler = function () {
 
 
     this.loop = async () => {
-        let baselink = _.split(decodeURIComponent(targetlink), "=")
         let endpage = 1
         console.log(baselink[baselink.length - 1], baselink.length)
         let options = {
@@ -74,6 +73,7 @@ let websiteCrawler = function () {
         try {
             let $ = await rp(options)
             // console.log($.html({ decodeEntities: false }))
+            // this is for one website
             $('.t_f').map((index, item) => {
                 // console.log(item)
                 item.children.map((nextitem, nextindex) => {
