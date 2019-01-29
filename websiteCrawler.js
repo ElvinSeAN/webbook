@@ -6,15 +6,21 @@ let _ = require('lodash');
 const fs = require('fs')
 
 
-let targetlink = "https://ck101.com/forum.php?mod=viewthread&tid=4592622&extra=page%3D1&page="
 
+// let targetlink = "https://ck101.com/forum.php?mod=viewthread&tid=4592622&extra=page%3D1&page="
+
+// let targetlink = "https://ck101.com/forum.php?mod=viewthread&tid=1889094&extra=&page=1&page="
+// let targetlink = "https://ck101.com/forum.php?mod=viewthread&tid=2166840&extra=&page=1&page="
 
 let websiteCrawler = function () {
     let mainText = ''
-    this.init = async () => {
+    let targetlink = ''
+    this.init = async (input) => {
+        console.log(input)
+        this.targetlink = input.site
         await this.loop()
         // print data
-        fs.writeFile("./wtf.txt", mainText, function (err) {
+        fs.writeFile("./" + input.name + '.txt', mainText, function (err) {
             if (err) {
                 return console.log(err)
             }
@@ -25,9 +31,9 @@ let websiteCrawler = function () {
 
     this.loop = async () => {
         let endpage = 1
-        console.log(baselink[baselink.length - 1], baselink.length)
+        // console.log(baselink[baselink.length - 1], baselink.length)
         let options = {
-            uri: targetlink,
+            uri: this.targetlink,
             transform: function (body) {
                 return cheerio.load(body, {decodeEntities: true});
             }
@@ -48,7 +54,7 @@ let websiteCrawler = function () {
                 }
             })
             for (let i = 1; i <= endpage; i++) {
-                let completelink = targetlink + i
+                let completelink = this.targetlink + i
 
                 console.log(completelink)
                 await this.loadwebsite(completelink)
